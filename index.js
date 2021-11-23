@@ -104,13 +104,13 @@ async function run() {
         //post api for carts
         app.post("/carts", async (req, res) => {
             const product = req.body;
-            const findUser = await carts.findOne({ email: product.email });
-            if (findUser) {
-                const findProduct = await carts.findOne({ _id: product._id })
-                if (!findProduct) {
+            const findProduct = await carts.findOne({ _id: product._id });
+            if (!findProduct) {
+                const findUser = await carts.findOne({ email: product.email })
+                if (findUser) {
                     const result = await carts.insertOne(product)
-                }
-                res.send(result)
+                    res.send(result);
+                }   
             }
             res.send({ duplicate: true });
         });
