@@ -63,7 +63,15 @@ async function run() {
             const makeArray = await result.toArray();
             res.send(makeArray);
         });
-
+        // Get single UserInfo
+        app.get("/hearts/:email", async (req, res) => {
+            const email = req.params.email;
+            console.log(email);
+            const query = { email: email };
+            const result = hearts.find(query);
+            const makeArray = await result.toArray();
+            res.send(makeArray);
+        });
         //post api for products
         app.post("/products", async (req, res) => {
             const product = req.body;
@@ -95,7 +103,7 @@ async function run() {
         app.post("/hearts", async (req, res) => {
             const heart = req.body;
             console.log("hit the post", heart);
-            const result = await carts.insertOne(heart);
+            const result = await hearts.insertOne(heart);
             console.log(result);
             res.json(result);
         });
