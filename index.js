@@ -90,20 +90,36 @@ async function run() {
             res.send(result);
         });
 
-        //post api for carts
-        app.post("/carts/:email", async (req, res) => {
-            const email = req.params.email;
-            console.log(email);
-            const query = { email: email };
-             const product = req.body;
-             const findUser = await carts.findOne(query);
-             const findProduct = await carts.findOne({ _id: product._id });
-             if (!findProduct && findUser ) {
-                 const result = await carts.insertOne(product);
-                 res.send(result);
-             }
-             res.send({ duplicate: true });
+        //add to cart product
+        app.post("/addToCart", async (req, res) => {
+            const addToCart = req.body;
+            const cartProductId = addToCart._id;
+            const cartProductName = addToCart.productName;
+            const email = addToCart.email;
+            const query = {
+                productId: cartProductId,
+                email: email,
+                productName: cartProductName,
+            };
+            const result = await addToCartCollection.findOne(query);
+            if (!result) {
+                const result = await addToCartCollection.insertOne(addToCart);
+                res.json(result);
+            } else {
+                res.json(0);
+            }
         });
+
+        // //post api for carts
+        // app.post("/carts", async (req, res) => {
+        //     const product = req.body;
+        //     const find = await carts.findOne({ _id: product._id });
+        //     if (!find) {
+        //         const result = await carts.insertOne(product);
+        //         res.send(result);
+        //     }
+        //     res.send({ duplicate: true });
+        // });
 
         //post api for hearts
         app.post("/hearts", async (req, res) => {
