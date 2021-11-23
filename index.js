@@ -94,30 +94,18 @@ async function run() {
         //post api for carts
         app.post("/carts", async (req, res) => {
             const product = req.body;
-            const _id = product._id
-            const email= product.email
-            const query = {
-                email: email,
-                _id: _id
-            }
-            const find = await carts.findOne(query);
+            const find = await carts.findOne({ _id: product._id });
             if (!find) {
                 const result = await carts.insertOne(product);
-                res.send(result);
+                res.json(result);
             }
-            res.send({ duplicate: true });
+            res.json({ duplicate: true });
         });
 
         //post api for hearts
         app.post("/hearts", async (req, res) => {
             const product = req.body;
-            const _id = product._id;
-            const email = product.email;
-            const query = {
-                email: email,
-                _id: _id,
-            };
-            const find = await hearts.findOne(query);
+            const find = await hearts.findOne({ _id: product._id });
             if (!find) {
                 const result = await hearts.insertOne(product);
                 res.send(result);
