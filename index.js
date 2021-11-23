@@ -54,6 +54,7 @@ async function run() {
             const orderInfo = await cursor.toArray();
             res.send(orderInfo);
         });
+
         // Get single UserInfo
         app.get("/carts/:email", async (req, res) => {
             const email = req.params.email;
@@ -90,16 +91,28 @@ async function run() {
             res.send(result);
         });
 
-
+        // //post api for carts
+        // app.post("/carts", async (req, res) => {
+        //     const product = req.body;
+        //     const find = await carts.findOne({ _id: product._id });
+        //     if (!find) {
+        //         const result = await carts.insertOne(product);
+        //         res.json(result);
+        //     }
+        //     res.json({ duplicate: true });
+        // });
         //post api for carts
         app.post("/carts", async (req, res) => {
             const product = req.body;
-            const find = await carts.findOne({ _id: product._id });
-            if (!find) {
-                const result = await carts.insertOne(product);
-                res.json(result);
+            const findUser = await carts.findOne({ email: product.email });
+            if (findUser) {
+                const findProduct = await carts.findOne({ _id: product._id })
+                if (!findProduct) {
+                    const result = await carts.insertOne(product)
+                }
+                res.send(result)
             }
-            res.json({ duplicate: true });
+            res.send({ duplicate: true });
         });
 
         //post api for hearts
