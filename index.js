@@ -92,11 +92,6 @@ async function run() {
 
         //post api for carts
         app.post("/carts", async (req, res) => {
-            // const cart = req.body;
-            // console.log("hit the post", cart);
-            // const result = await carts.insertOne(cart);
-            // console.log(result);
-            // res.send(result);
              const product = req.body;
              const find = await carts.findOne({ _id: product._id });
              if (!find) {
@@ -108,11 +103,13 @@ async function run() {
 
         //post api for hearts
         app.post("/hearts", async (req, res) => {
-            const heart = req.body;
-            console.log("hit the post", heart);
-            const result = await hearts.insertOne(heart);
-            console.log(result);
-            res.json(result);
+            const product = req.body;
+            const find = await hearts.findOne({ _id: product._id });
+            if (!find) {
+                const result = await hearts.insertOne(product);
+                res.send(result);
+            }
+            res.send({ duplicate: true });
         });
 
         //post api for users
