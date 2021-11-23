@@ -94,9 +94,15 @@ async function run() {
         //post api for carts
         app.post("/carts", async (req, res) => {
             const product = req.body;
-            const find = await carts.findOne({ _id: product._id });
+            const _id = product._id
+            const email= product.email
+            const query = {
+                email: email,
+                _id: _id
+            }
+            const find = await carts.findOne(query);
             if (!find) {
-                const result = await hearts.insertOne(product);
+                const result = await carts.insertOne(product);
                 res.send(result);
             }
             res.send({ duplicate: true });
