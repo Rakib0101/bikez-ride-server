@@ -111,7 +111,13 @@ async function run() {
         //post api for hearts
         app.post("/hearts", async (req, res) => {
             const product = req.body;
-            const find = await hearts.findOne({ _id: product._id });
+            const _id = product._id;
+            const email = product.email;
+            const query = {
+                email: email,
+                _id: _id,
+            };
+            const find = await hearts.findOne(query);
             if (!find) {
                 const result = await hearts.insertOne(product);
                 res.send(result);
