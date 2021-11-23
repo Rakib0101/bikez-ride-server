@@ -91,10 +91,14 @@ async function run() {
         });
 
         //post api for carts
-        app.post("/carts", async (req, res) => {
+        app.post("/carts/:email", async (req, res) => {
+            const email = req.params.email;
+            console.log(email);
+            const query = { email: email };
              const product = req.body;
-             const find = await carts.findOne({ _id: product._id });
-             if (!find) {
+             const findUser = await carts.findOne(query);
+             const findProduct = await carts.findOne({ _id: product._id });
+             if (!findProduct && findUser ) {
                  const result = await carts.insertOne(product);
                  res.send(result);
              }
