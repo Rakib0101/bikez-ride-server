@@ -90,36 +90,21 @@ async function run() {
             res.send(result);
         });
 
-        //add to cart product
-        app.post("/carts", async (req, res) => {
-            const addToCart = req.body;
-            const cartProductId = addToCart._id;
-            const cartProductName = addToCart.productName;
-            const email = addToCart.email;
-            const query = {
-                productId: cartProductId,
-                email: email,
-                productName: cartProductName,
-            };
-            const result = await addToCartCollection.findOne(query);
-            if (!result) {
-                const result = await addToCartCollection.insertOne(addToCart);
-                res.json(result);
-            } else {
-                res.json(0);
-            }
-        });
 
-        // //post api for carts
-        // app.post("/carts", async (req, res) => {
-        //     const product = req.body;
-        //     const find = await carts.findOne({ _id: product._id });
-        //     if (!find) {
-        //         const result = await carts.insertOne(product);
-        //         res.send(result);
-        //     }
-        //     res.send({ duplicate: true });
-        // });
+        //post api for carts
+        app.post("/carts", async (req, res) => {
+            const product = req.body;
+            const query = {
+                _id: product._id,
+                email: product.email
+            }
+            const find = await carts.findOne(query);
+            if (!find) {
+                const result = await carts.insertOne(product);
+                res.send(result);
+            }
+            res.send(0);
+        });
 
         //post api for hearts
         app.post("/hearts", async (req, res) => {
@@ -129,7 +114,7 @@ async function run() {
                 const result = await hearts.insertOne(product);
                 res.send(result);
             }
-            res.send({ duplicate: true });
+            res.send(0);
         });
 
         //post api for users
