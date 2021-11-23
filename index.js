@@ -78,7 +78,7 @@ async function run() {
             console.log("hit the post", product);
             const result = await products.insertOne(product);
             console.log(result);
-            res.json(result);
+            res.send(result);
         });
 
         //post api for reviews
@@ -87,7 +87,7 @@ async function run() {
             console.log("hit the post", review);
             const result = await reviews.insertOne(review);
             console.log(result);
-            res.json(result);
+            res.send(result);
         });
 
         //post api for carts
@@ -96,7 +96,7 @@ async function run() {
             console.log("hit the post", cart);
             const result = await carts.insertOne(cart);
             console.log(result);
-            res.json(result);
+            res.send(result);
         });
 
         //post api for hearts
