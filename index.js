@@ -91,7 +91,7 @@ async function run() {
         });
 
         //add to cart product
-        app.post("/addToCart", async (req, res) => {
+        app.post("/carts", async (req, res) => {
             const addToCart = req.body;
             const cartProductId = addToCart._id;
             const cartProductName = addToCart.productName;
