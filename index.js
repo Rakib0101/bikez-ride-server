@@ -106,7 +106,7 @@ async function run() {
                 const result = await carts.insertOne(addToCart);
                 res.json(result);
             } else {
-                res.send({ duplicate: true });
+                res.json({ duplicate: true });
             }
         });
 
@@ -123,7 +123,7 @@ async function run() {
             console.log(result);
             if (!result) {
                 const result = await hearts.insertOne(heart);
-                res.json(result);
+                res.send(result);
             } else {
                 res.send({ duplicate: true });
             }
