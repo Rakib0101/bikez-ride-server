@@ -12,6 +12,7 @@ const port = process.env.PORT || 5000;
 app.use(cors());
 app.use(express.json());
 
+
 const uri = `mongodb+srv://${process.env.DB_USER}:${process.env.DB_PASS}@cluster0.gzsrh.mongodb.net/myFirstDatabase?retryWrites=true&w=majority`;
 const client = new MongoClient(uri, {
     useNewUrlParser: true,
@@ -103,8 +104,8 @@ async function run() {
             const result = await carts.findOne(query);
             console.log(result);
             if (!result) {
-                const result = await carts.insertOne(addToCart);
-                res.json(result);
+                const result2 = await carts.insertOne(addToCart);
+                res.json(result2);
             } else {
                 res.json({ duplicate: true });
             }
@@ -122,8 +123,8 @@ async function run() {
             const result = await hearts.findOne(query);
             console.log(result);
             if (!result) {
-                const result = await hearts.insertOne(heart);
-                res.send(result);
+                const result2 = await hearts.insertOne(heart);
+                res.send(result2);
             } else {
                 res.send({ duplicate: true });
             }
