@@ -101,18 +101,24 @@ async function run() {
         //     }
         //     res.json({ duplicate: true });
         // });
-        //post api for carts
+
+        //add to cart product
         app.post("/carts", async (req, res) => {
-            const product = req.body;
-            const findProduct = await carts.findOne({ _id: product._id });
-            if (!findProduct) {
-                const findUser = await carts.findOne({ email: product.email })
-                if (findUser) {
-                    const result = await carts.insertOne(product)
-                    res.send(result);
-                }   
+            const addToCart = req.body;
+            const cartProductId = addToCart._id;
+            const email = addToCart.email;
+            const query = {
+                productId: cartProductId,
+                email: email,
+            };
+            const result = await carts.findOne(query);
+            console.log(result);
+            if (!result) {
+                const result = await carts.insertOne(addToCart);
+                res.json(result);
+            } else {
+                res.json(0);
             }
-            res.send({ duplicate: true });
         });
 
         //post api for hearts
