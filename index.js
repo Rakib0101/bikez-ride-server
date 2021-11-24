@@ -91,17 +91,6 @@ async function run() {
             res.send(result);
         });
 
-        // //post api for carts
-        // app.post("/carts", async (req, res) => {
-        //     const product = req.body;
-        //     const find = await carts.findOne({ _id: product._id });
-        //     if (!find) {
-        //         const result = await carts.insertOne(product);
-        //         res.json(result);
-        //     }
-        //     res.json({ duplicate: true });
-        // });
-
         //add to cart product
         app.post("/carts", async (req, res) => {
             const addToCart = req.body;
@@ -121,15 +110,23 @@ async function run() {
             }
         });
 
-        //post api for hearts
+        //add to heart product
         app.post("/hearts", async (req, res) => {
-            const product = req.body;
-            const find = await hearts.findOne({ _id: product._id });
-            if (!find) {
-                const result = await hearts.insertOne(product);
-                res.send(result);
+            const heart = req.body;
+            const heartId = heart._id;
+            const email = heart.email;
+            const query = {
+                productId: heartId,
+                email: email,
+            };
+            const result = await hearts.findOne(query);
+            console.log(result);
+            if (!result) {
+                const result = await hearts.insertOne(heart);
+                res.json(result);
+            } else {
+                res.json(0);
             }
-            res.send({ duplicate: true });
         });
 
         //post api for users
